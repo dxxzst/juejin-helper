@@ -2,7 +2,7 @@ name: Auto
 
 on:
   schedule:
-    - cron: "50 23 * * *" # 北京时间上午07:50
+    - cron: "30 22 * * *" # 北京时间上午06:30
   workflow_dispatch:
 
 env:
@@ -17,6 +17,8 @@ env:
   DINGDING_WEBHOOK: ${{ secrets.DINGDING_WEBHOOK }}
   PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
   WEIXIN_WEBHOOK: ${{ secrets.WEIXIN_WEBHOOK }}
+  SERVERPUSHKEY: ${{ secrets.SERVERPUSHKEY }}
+  FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
 
 jobs:
   CheckIn:
@@ -29,14 +31,15 @@ jobs:
           cd workflows
           yarn
           yarn checkin
-#   SeaGold:
-#     needs: CheckIn
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - uses: actions/setup-node@v2
-#       - name: Run Project
-#         run: |
-#           cd workflows
-#           yarn
-#           yarn seagold
+
+#  SeaGold:
+#    needs: CheckIn
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-node@v2
+#      - name: Run Project
+#        run: |
+#          cd workflows
+#          yarn
+#          yarn seagold
