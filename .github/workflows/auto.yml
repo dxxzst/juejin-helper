@@ -23,30 +23,48 @@ env:
 jobs:
   CheckIn:
     runs-on: ubuntu-latest
-    retry:
-      max_attempts: 3
-      delay_seconds: 120
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
 
-      - name: Run Project
+      - name: Run Project with Retry
         run: |
           cd workflows
-          yarn
-          yarn checkin
+
+          echo "📦 安装依赖（带重试）"
+          for i in 1 2 3; do
+            yarn && break
+            echo "❗ yarn 安装失败，第 $i 次重试，等待 120 秒..."
+            sleep 120
+          done
+
+          echo "🚀 执行 checkin（带重试）"
+          for i in 1 2 3; do
+            yarn checkin && break
+            echo "❗ checkin 执行失败，第 $i 次重试，等待 120 秒..."
+            sleep 120
+          done
 
 #  SeaGold:
 #    needs: CheckIn
 #    runs-on: ubuntu-latest
-#    retry:
-#      max_attempts: 3
-#      delay_seconds: 120
 #    steps:
 #      - uses: actions/checkout@v2
 #      - uses: actions/setup-node@v2
-#      - name: Run Project
+#      - name: Run Project with Retry
 #        run: |
 #          cd workflows
-#          yarn
-#          yarn seagold
+#
+#          echo "📦 安装依赖（带重试）"
+#          for i in 1 2 3; do
+#            yarn && break
+#            echo "❗ yarn 安装失败，第 $i 次重试，等待 120 秒..."
+#            sleep 120
+#          done
+#
+#          echo "🚀 执行 seagold（带重试）"
+#          for i in 1 2 3; do
+#            yarn seagold && break
+#            echo "❗ seagold 执行失败，第 $i 次重试，等待 120 秒..."
+#            sleep 120
+#          done
